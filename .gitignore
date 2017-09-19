@@ -1,4 +1,10 @@
+# Generated files
 *.pyc
+
+# Editor related
 .*.swp
 *~
 
+# Archives
+*.zip
+*.git-bundle

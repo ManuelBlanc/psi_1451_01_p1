@@ -19,7 +19,7 @@ import re, math
 # Return the resulting string.
 def verbing(s):
   if len(s) >= 3:
-    if s[-3:] == 'ing': s += 'ly'
+    if s.endswith('ing'): s += 'ly'
     else: s += 'ing'
 
   return s
