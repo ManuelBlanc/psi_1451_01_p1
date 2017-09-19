@@ -37,42 +37,40 @@ print_words() and print_top().
 
 """
 
-import sys
+import sys, collections
 
-# +++your code here+++
-# Define print_words(filename) and print_top(filename) functions.
-# You could write a helper utility function that reads a file
-# and builds and returns a word/count dict for it.
-# Then print_words() and print_top() can just call the utility function.
+def die(message):
+  print message
+  sys.exit(1)
 
 def slurp(filename):
-  with open(filename) as x: return x.read()
+  """Read in a whole file into a string."""
+  try:
+    f = open(filename)
+  except IOError:
+    die('Could not open file `%s\'' % filename)
+  else:
+    with f: return f.read()
 
+def word_frequency_query(query):
+  """Build a word-frequency reporter from a given query thunk."""
+  def wrapper(filename):
+    text = slurp(filename)
+    word_dict = collections.Counter(map(str.lower, text.split()))
+    for word_tuple in query(word_dict.items()):
+      print '%s %i' % word_tuple
 
-def build_word_dict(text):
-  word_dict = {}
+  return wrapper
 
-  for word in text.split():
-    word = word.lower()
+@word_frequency_query
+def print_words(tuple_list):
+  """Prints a word-frequency list, sorted lexicographically."""
+  return sorted(tuple_list, key=lambda t: t[0])
 
-    if word not in word_dict: word_dict[word] = 0
-    word_dict[word] += 1
-
-  return word_dict
-
-
-def print_words(filename):
-  text = slurp(filename)
-  word_dict = build_word_dict(text)
-
-  for word_tuple in sorted(word_dict.items(), key=lambda t: t[0]):
-    print '%s %i' % word_tuple
-
-def print_top(filename):
-  text = slurp(filename)
-  word_dict = build_word_dict(text)
-  for word_tuple in sorted(word_dict.items(), key=lambda t: t[1], reverse=True)[:20]:
-    print '%s %i' % word_tuple
+@word_frequency_query
+def print_top(tuple_list):
+  """Prints the 20 most frequent words in a text file."""
+  return sorted(tuple_list, key=lambda t: t[1], reverse=True)[:20]
 
 ###
 

@@ -19,8 +19,8 @@ import re, math
 # Return the resulting string.
 def verbing(s):
   if len(s) >= 3:
-  	if s[-3:] == 'ing': s += 'ly'
-  	else: s += 'ing'
+    if s[-3:] == 'ing': s += 'ly'
+    else: s += 'ing'
 
   return s
 
@@ -34,7 +34,7 @@ def verbing(s):
 # So 'This dinner is not that bad!' yields:
 # This dinner is good!
 def not_bad(s):
-  return re.sub('not.*?bad', 'good', s)
+  return re.sub(r'not.*?bad', 'good', s)
 
 
 # F. front_back
@@ -45,12 +45,12 @@ def not_bad(s):
 # Given 2 strings, a and b, return a string of the form
 #  a-front + b-front + a-back + b-back
 def front_back(a, b):
-  def split(s):
-  	half = int(math.ceil(len(s) / 2.0))
-  	return s[:half], s[half:]
+  def split_into_halves(s):
+    half = len(s) - len(s)/2
+    return s[:half], s[half:]
 
-  a_front, a_back = split(a)
-  b_front, b_back = split(b)
+  a_front, a_back = split_into_halves(a)
+  b_front, b_back = split_into_halves(b)
 
   return a_front + b_front + a_back + b_back
 

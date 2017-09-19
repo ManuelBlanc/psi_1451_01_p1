@@ -35,8 +35,7 @@ def donuts(count):
 # so 'spring' yields 'spng'. However, if the string length
 # is less than 2, return instead the empty string.
 def both_ends(s):
-  if len(s) < 2: return ''
-  return s[:2] + s[-2:]
+  return s[:2] + s[-2:] if len(s) >= 2 else ''
 
 
 # C. fix_start
@@ -49,8 +48,7 @@ def both_ends(s):
 # Hint: s.replace(stra, strb) returns a version of string s
 # where all instances of stra have been replaced by strb.
 def fix_start(s):
-  first_char = s[0]
-  return first_char + s[1:].replace(first_char, '*')
+  return s[0] + s[1:].replace(s[0], '*')
 
 
 # D. MixUp
